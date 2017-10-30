@@ -2,14 +2,14 @@
 
 ## zabbix server部署
 ### 拉取镜像
-- mysql镜像：`docker pull mysql`
+- mysql镜像：`docker pull mysql:5.6`
 - zabbix server镜像：`docker pull zabbix/zabbix-server-mysql`
 - zabbix web接口镜像：`docker pull zabbix/zabbix-web-nginx-mysql`
 
 ### 运行容器
 - 运行mysql server实例
 ```
-    docker run --name mysql-server -t -e MYSQL_DATABASE="zabbix" -e MYSQL_USER="zabbix" -e MYSQL_PASSWORD="123456" -e MYSQL_ROOT_PASSWORD="123456" -d mysql
+    docker run --name mysql-server -t -e MYSQL_DATABASE="zabbix" -e MYSQL_USER="zabbix" -e MYSQL_PASSWORD="123456" -e MYSQL_ROOT_PASSWORD="123456" -p 3309:3306 -d mysql:5.6
 ```
 - 运行zabbix server实例，并关联到已创建的mysql数据库
 ```
@@ -20,6 +20,7 @@
     docker run --name zabbix-web -t -e DB_SERVER_HOST="mysql-server" -e MYSQL_DATABASE="zabbix" -e MYSQL_USER="zabbix" -e MYSQL_PASSWORD="123456" -e MYSQL_ROOT_PASSWORD="123456" --link mysql-server:mysql --link zabbix-server:zabbix-server -p 8088:80 -d zabbix/zabbix-web-nginx-mysql
 ```
 - 浏览器输入主机IP和相应端口，出现zabbix登录界面，默认用户名密码Admin/zabbix
+    ![zabbix_login](https://raw.githubusercontent.com/VVphe/zabbix_learning/master/res/zabbix_login.png)
 
 ## zabbix agent部署
 ### 安装zabbix agent
