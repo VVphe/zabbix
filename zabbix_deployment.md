@@ -24,7 +24,7 @@
 - 浏览器输入主机IP和相应端口，出现zabbix登录界面，默认用户名密码Admin/zabbix
 
 ### 异常处理
-- 出现Unable to select configuration,一般是zabbix数据库有关表导入错误
+- 出现Unable to select configuration,一般是zabbix数据库有关表导入错误  
     ![exception](https://raw.githubusercontent.com/VVphe/zabbix_learning/master/res/exception.png)
 1. 获取mysql实例IP地址
     `docker inspect mysql-server`
@@ -32,8 +32,10 @@
     `mysql -h xxx.xxx.xxx.xxx -uzabbix -p`
 3. 重新导入即可
     ![createsql](https://raw.githubusercontent.com/VVphe/zabbix_learning/master/res/create_sql.png)
-- 登入前端界面,出现Zabbix server is not running zabbix-server实例没有成功运行,或重新导入数据库后server失效
-重新启动zabbix server实例
+- 登入前端界面,出现Zabbix serve is not running
+zabbix-server实例没有成功运行,或重新导入数据库后server失效  
+重新启动zabbix server实例  
+
     `docker rm zabbix-server`
     ```
     docker run --name zabbix-server -t -e DB_SERVER_HOST="mysql-server" -e MYSQL_DATABASE="zabbix" -e MYSQL_USER="zabbix" -e MYSQL_PASSWORD="123456" -e MYSQL_ROOT_PASSWORD="123456" --link mysql-server:mysql -p 10051:10051 -d zabbix/zabbix-server-mysql
