@@ -35,10 +35,10 @@
 - 登入前端界面,出现Zabbix serve is not running
 zabbix-server实例没有成功运行,或重新导入数据库后server失效  
 重新启动zabbix server实例  
-`docker rm zabbix-server`
-    ```
+```
+    docker rm zabbix-server  
     docker run --name zabbix-server -t -e DB_SERVER_HOST="mysql-server" -e MYSQL_DATABASE="zabbix" -e MYSQL_USER="zabbix" -e MYSQL_PASSWORD="123456" -e MYSQL_ROOT_PASSWORD="123456" --link mysql-server:mysql -p 10051:10051 -d zabbix/zabbix-server-mysql
-    ```
+```
 
 ## zabbix agent部署
 ### 安装zabbix agent
