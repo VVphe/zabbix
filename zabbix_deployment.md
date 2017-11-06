@@ -5,6 +5,7 @@
 - mysql镜像：`docker pull mysql:5.6`
 - zabbix server镜像：`docker pull zabbix/zabbix-server-mysql`
 - zabbix web接口镜像：`docker pull zabbix/zabbix-web-nginx-mysql`
+![images](https://raw.githubusercontent.com/VVphe/zabbix_learning/master/res/images.png)
 
 ### 运行容器
 - 运行mysql server实例
@@ -19,8 +20,25 @@
 ```
     docker run --name zabbix-web -t -e DB_SERVER_HOST="mysql-server" -e MYSQL_DATABASE="zabbix" -e MYSQL_USER="zabbix" -e MYSQL_PASSWORD="123456" -e MYSQL_ROOT_PASSWORD="123456" --link mysql-server:mysql --link zabbix-server:zabbix-server -p 8088:80 -d zabbix/zabbix-web-nginx-mysql
 ```
+![containers](https://raw.githubusercontent.com/VVphe/zabbix_learning/master/res/container.png)
 - 浏览器输入主机IP和相应端口，出现zabbix登录界面，默认用户名密码Admin/zabbix
-    ![zabbix_login](https://raw.githubusercontent.com/VVphe/zabbix_learning/master/res/zabbix_login.png)
+
+### 异常处理
+- 出现Unable to select configuration,一般是zabbix数据库有关表导入错误
+![exception](https://raw.githubusercontent.com/VVphe/zabbix_learning/master/res/exception.png)
+获取mysql实例IP地址
+`docker inspect mysql-server`
+连接mysql
+`mysql -h xxx.xxx.xxx.xxx -uzabbix -p`
+重新导入即可
+![createsql](https://raw.githubusercontent.com/VVphe/zabbix_learning/master/res/create_sql.png)
+- 登入前端界面,出现Zabbix server is not running,表示zabbix-server实例没有成功运行,或重新导入数据库后server失效
+重新启动zabbix server实例
+`docker rm zabbix-server`
+```
+docker run --name zabbix-server -t -e DB_SERVER_HOST="mysql-server" -e MYSQL_DATABASE="zabbix" -e MYSQL_USER="zabbix" -e MYSQL_PASSWORD="123456" -e MYSQL_ROOT_PASSWORD="123456" --link mysql-server:mysql -p 10051:10051 -d zabbix/zabbix-server-mysql
+```
+
 
 ## zabbix agent部署
 ### 安装zabbix agent
