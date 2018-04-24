@@ -8,11 +8,11 @@
 ![images](https://raw.githubusercontent.com/VVphe/zabbix_learning/master/res/images.png)
 
 ### 运行容器
-- 运行mysql server实例
+- 运行mysql server实
 ```
     docker run --name mysql-server -t -e MYSQL_DATABASE="zabbix" -e MYSQL_USER="zabbix" -e MYSQL_PASSWORD="123456" -e MYSQL_ROOT_PASSWORD="123456" -p 3309:3306 -d mysql:5.6
 ```
-- 运行zabbix server实例，并关联到已创建的mysql数据库
+- 运行zabbix server实例，并关联到已创建mysql数据库
 ```
     docker run --name zabbix-server -t -e DB_SERVER_HOST="mysql-server" -e MYSQL_DATABASE="zabbix" -e MYSQL_USER="zabbix" -e MYSQL_PASSWORD="123456" -e MYSQL_ROOT_PASSWORD="123456" --link mysql-server:mysql -p 10051:10051 -d zabbix/zabbix-server-mysql
 ```
